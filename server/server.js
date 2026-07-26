@@ -4,10 +4,15 @@ import cors from 'cors'
 import connectDB from "./config/db.js";
 import { clerkMiddleware } from '@clerk/express'
 import clerkWebhook from "./controllers/clerkWebHook.js";
+import userRouter from "./routes/userRouter.js";
+import hotelRouter from "./routes/HotelRoute.js";
+import connectCloudinary from "./config/cloudinary.js";
+import roomRouter from "./routes/Roomroute.js";
 
 const PORT = process.env.PORT || 3000
 
 connectDB()
+connectCloudinary()
 const app = express()
 // Middle ware
 app.use(cors())
@@ -18,9 +23,9 @@ app.use(express.json({
 }))
 app.use(clerkMiddleware())
 app.post("/api/clerk", clerkWebhook);
-
-
-
+app.use('/api/user' , userRouter)
+app.use('/api/hotels' , hotelRouter)
+app.use('/api/rooms', roomRouter)
 
 
 

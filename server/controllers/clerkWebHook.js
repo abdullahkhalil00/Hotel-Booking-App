@@ -2,9 +2,7 @@ import { Webhook } from 'svix'
 import User from "../models/user.js";
 const clerkWebhook = async (req, res) => {
     try {
-        console.log("Webhook Hit");
-        console.log(req.headers);
-        console.log(req.body);
+       
 
         // Create a Svix instance with clerk webhook secret.
         const whook = new Webhook(process.env.CLERK_WEBHOOK_SECRET)
@@ -20,8 +18,7 @@ const clerkWebhook = async (req, res) => {
 
         // Getting Data from request body
         const { data, type } = req.body
-        console.log(type);
-        console.log(data);
+        
         // Switch case for differeent types
         switch (type) {
             case "user.created": {

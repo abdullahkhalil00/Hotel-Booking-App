@@ -1,13 +1,15 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
 async function connectDB() {
-    try {
-        mongoose.connection.on('connected', () => {
-            console.log('Database Connected')
-        })        
-       await mongoose.connect(`${process.env.MONGODB_URI}/hotel-booking`)
-    } catch (error) {
-        console.log(error.message)
-    }
+  try {
+    console.log(process.env.MONGODB_URI);
+
+    await mongoose.connect(`${process.env.MONGODB_URI}/hotel-booking`);
+
+    console.log("Database Connected");
+  } catch (error) {
+    console.log(error);
+  }
 }
-export default connectDB
+
+export default connectDB;

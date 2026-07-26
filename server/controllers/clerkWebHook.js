@@ -16,31 +16,39 @@ const clerkWebhook = async (req, res) => {
             "svix-signature": req.headers["svix-signature"],
         }
         // Verify 
-                await whook.verify(req.rawBody || JSON.stringify(req.body), headers)
+        await whook.verify(req.rawBody || JSON.stringify(req.body), headers)
 
         // Getting Data from request body
         const { data, type } = req.body
-
-        const userData = {
-            _id: data.id,
-            email: data.email_addresses[0].email_address,
-            username: data.first_name + " " + data.last_name,
-            image: data.image_url,
-
-        }
-
+        console.log(type);
+        console.log(data);
         // Switch case for differeent types
         switch (type) {
-            case "user.created":
-                await User.create(userData)
+            case "user.created": {
+                const userData = {
+                    _id: data.id,
+                    email: data.email_addresses[0].email_address,
+                    username: `${data.first_name} ${data.last_name}`,
+                    image: data.image_url,
+                };
+
+                await User.create(userData);
                 break;
-            case "user.updated":
-                await User.findByIdAndUpdate(data.id, userData)
+            }
+
+            case "user.updated": {
+                const userData = {
+                    email: data.email_addresses[0].email_address,
+                    username: `${data.first_name} ${data.last_name}`,
+                    image: data.image_url,
+                };
+
+                await User.findByIdAndUpdate(data.id, userData);
                 break;
+            }
+
             case "user.deleted":
-                await User.findByIdAndDelete(data.id)
-                break;
-            default:
+                await User.findByIdAndDelete(data.id);
                 break;
         }
         res.json({

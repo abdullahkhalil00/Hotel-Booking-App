@@ -1,21 +1,22 @@
 import React from 'react'
 import Navbar from '../../component/hotelOwner/Navbar'
-import { SideBar } from '../../component/hotelOwner/SideBar';
-import { Outlet } from 'react-router-dom';
+import { SideBar } from '../../component/hotelOwner/SideBar'
+import { Outlet } from 'react-router-dom'
+
 const Layout = () => {
     return (
-        <div className='flex flex-col h-screen'>
+        <div className="flex flex-col min-h-screen">
             <Navbar />
-            <div className='flex h-full'>
+
+            <div className="flex flex-1">
                 <SideBar />
-                <div className='flex-1 p-4 pt-10 md:px-10 h-full'>
+
+                <div className="flex-1 p-4 pt-10 md:px-10">
                     <Outlet />
                 </div>
             </div>
         </div>
-
-
     )
 }
 
-export default Layout;
+export default Layout

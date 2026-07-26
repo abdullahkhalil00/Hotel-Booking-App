@@ -11,9 +11,13 @@ connectDB()
 const app = express()
 // Middle ware
 app.use(cors())
-app.use(express.json())
+app.use(express.json({
+    verify: (req, res, buf) => {
+        req.rawBody = buf.toString();
+    }
+}))
 app.use(clerkMiddleware())
-app.use('/api/clerk' , clerkWebhook)
+app.post("/api/clerk", clerkWebhook);
 
 
 
@@ -21,11 +25,10 @@ app.use('/api/clerk' , clerkWebhook)
 
 
 
-
-app.get('/' , (req,res) => res.send("APi is working "))
-
+app.get('/', (req, res) => res.send("APi is working "))
 
 
 
 
-app.listen(PORT , () => console.log(`Server is running on ${PORT}`))
+
+app.listen(PORT, () => console.log(`Server is running on ${PORT}`))

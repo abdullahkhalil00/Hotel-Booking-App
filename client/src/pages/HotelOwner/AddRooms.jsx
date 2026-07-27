@@ -25,7 +25,6 @@ const AddRooms = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     // Backend API Integration ke liye Data Log
-    console.log({ images, inputs })
   }
 
   return (

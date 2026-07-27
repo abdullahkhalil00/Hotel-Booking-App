@@ -1,25 +1,28 @@
 import React from 'react'
 import { assets, cities } from '../assets/assets'
+import { useAppContext } from '../context/AppContext'
 
-export const HotelReg = ({ onClose }) => {
+export const HotelReg = () => {
+
+    const { setShowHotelReg } = useAppContext()
     return (
         <div className='fixed top-0 bottom-0 left-0 right-0 z-50 flex items-center justify-center bg-black/70'>
             <form className='flex bg-white rounded-xl max-w-4xl max-md:mx-2 overflow-hidden shadow-2xl'>
-                
+
                 {/* Left Side Image */}
-                <img 
-                    src={assets.regImage} 
-                    alt="reg-image" 
+                <img
+                    src={assets.regImage}
+                    alt="reg-image"
                     className='w-1/2 rounded-l-xl hidden md:block object-cover'
                 />
 
                 {/* Right Side Form Content */}
                 <div className='relative flex flex-col items-center w-full md:w-1/2 p-8 md:p-10 bg-white'>
                     {/* Close Icon */}
-                    <img 
-                        src={assets.closeIcon} 
-                        alt="close-icon" 
-                        onClick={onClose}
+                    <img
+                        src={assets.closeIcon}
+                        alt="close-icon"
+                        onClick={() => setShowHotelReg(false)} 
                         className='absolute top-4 right-4 h-4 w-4 cursor-pointer hover:opacity-75 transition-opacity'
                     />
 
@@ -30,12 +33,12 @@ export const HotelReg = ({ onClose }) => {
                         <label htmlFor="name" className="font-medium text-gray-500 text-sm">
                             Hotel Name
                         </label>
-                        <input 
-                            type="text" 
-                            id='name' 
-                            placeholder="Type here" 
-                            className="border border-gray-200 rounded w-full px-3 py-2.5 mt-1 outline-indigo-500 font-light text-gray-700" 
-                            required 
+                        <input
+                            type="text"
+                            id='name'
+                            placeholder="Type here"
+                            className="border border-gray-200 rounded w-full px-3 py-2.5 mt-1 outline-indigo-500 font-light text-gray-700"
+                            required
                         />
                     </div>
 
@@ -44,12 +47,12 @@ export const HotelReg = ({ onClose }) => {
                         <label htmlFor="contact" className="font-medium text-gray-500 text-sm">
                             Phone
                         </label>
-                        <input 
-                            type="text" 
-                            id='contact' 
-                            placeholder="Type here" 
-                            className="border border-gray-200 rounded w-full px-3 py-2.5 mt-1 outline-indigo-500 font-light text-gray-700" 
-                            required 
+                        <input
+                            type="text"
+                            id='contact'
+                            placeholder="Type here"
+                            className="border border-gray-200 rounded w-full px-3 py-2.5 mt-1 outline-indigo-500 font-light text-gray-700"
+                            required
                         />
                     </div>
 
@@ -58,12 +61,12 @@ export const HotelReg = ({ onClose }) => {
                         <label htmlFor="address" className="font-medium text-gray-500 text-sm">
                             Address
                         </label>
-                        <input 
-                            type="text" 
-                            id='address' 
-                            placeholder="Type here" 
-                            className="border border-gray-200 rounded w-full px-3 py-2.5 mt-1 outline-indigo-500 font-light text-gray-700" 
-                            required 
+                        <input
+                            type="text"
+                            id='address'
+                            placeholder="Type here"
+                            className="border border-gray-200 rounded w-full px-3 py-2.5 mt-1 outline-indigo-500 font-light text-gray-700"
+                            required
                         />
                     </div>
 
@@ -72,8 +75,8 @@ export const HotelReg = ({ onClose }) => {
                         <label htmlFor="city" className="font-medium text-gray-500 text-sm">
                             City
                         </label>
-                        <select 
-                            id="city" 
+                        <select
+                            id="city"
                             className='border border-gray-200 rounded w-full px-3 py-2.5 mt-1 outline-indigo-500 font-light text-gray-700 bg-white'
                             required
                         >
@@ -85,7 +88,7 @@ export const HotelReg = ({ onClose }) => {
                     </div>
 
                     {/* Submit Button */}
-                    <button 
+                    <button
                         type="submit"
                         className='bg-indigo-500 hover:bg-indigo-600 transition-all text-white mr-auto px-6 py-2 rounded cursor-pointer mt-6 font-medium'
                     >

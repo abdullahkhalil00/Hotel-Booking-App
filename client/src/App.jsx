@@ -11,14 +11,17 @@ import Layout from './pages/HotelOwner/Layout'
 import Dashbord from './pages/HotelOwner/Dashbord'
 import AddRooms from './pages/HotelOwner/AddRooms'
 import ListRooms from './pages/HotelOwner/ListRooms'
-
+import { Toaster} from 'react-hot-toast'
+import { useAppContext } from './context/AppContext'
 
 function App() {
   const isOwner  = useLocation().pathname.includes('owner')
+  const {showHotelReg}  = useAppContext()
   return (
     <>
+      <Toaster/>
       { !isOwner &&  < Navbar/> }
-      {false && <HotelReg/>}
+      {showHotelReg && <HotelReg/>}
       <div className='min-h-[70vh]' >
         <Routes>
           <Route  path='/' element={<Home/>}></Route>

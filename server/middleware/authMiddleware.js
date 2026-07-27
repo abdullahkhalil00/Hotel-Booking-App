@@ -1,18 +1,25 @@
-
-import User from '../models/user.js'
+import User from "../models/user.js";
 
 async function protect(req, res, next) {
-    const { userId } = req.auth
+    console.log("req.auth:", req.auth);
+
+    const { userId } = req.auth || {};
+
+    console.log("userId:", userId);
+
     if (!userId) {
-     res.json({
-        success: false,
-        message: "Not authenticated"
-    })
-}
-    else {
-        const user = await User.findById(userId)        
-        req.user = user
-        next()
+        return res.status(401).json({
+            success: false,
+            message: "Not authenticated",
+        });
     }
+
+    const user = await User.findById(userId);
+
+    console.log("user:", user);
+
+    req.user = user;
+    next();
 }
-export default protect
+
+export default protect;

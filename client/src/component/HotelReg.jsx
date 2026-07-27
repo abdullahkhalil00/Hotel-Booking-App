@@ -17,6 +17,8 @@ export const HotelReg = () => {
 
             const token = await getToken();
 
+            console.log("TOKEN:", token);
+
             const { data } = await axios.post(
                 '/api/hotels',
                 { name, contact, address, city },
@@ -40,13 +42,13 @@ export const HotelReg = () => {
     };
 
     return (
-        <div 
-            onClick={() => setShowHotelReg(false)} 
+        <div
+            onClick={() => setShowHotelReg(false)}
             className='fixed top-0 bottom-0 left-0 right-0 z-50 flex items-center justify-center bg-black/70'
         >
-            <form 
-                onClick={(e) => e.stopPropagation()} 
-                onSubmit={onSubmitHandler} 
+            <form
+                onClick={(e) => e.stopPropagation()}
+                onSubmit={onSubmitHandler}
                 className='flex bg-white rounded-xl max-w-4xl max-md:mx-2 overflow-hidden shadow-2xl'
             >
                 {/* Left Side Image */}

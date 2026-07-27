@@ -6,6 +6,8 @@ async function protect(req, res, next) {
     const { userId } = req.auth || {};
 
     console.log("userId:", userId);
+    console.log("Authorization:", req.headers.authorization);
+    console.log("req.auth:", req.auth);
 
     if (!userId) {
         return res.status(401).json({

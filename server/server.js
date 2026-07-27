@@ -8,7 +8,7 @@ import userRouter from "./routes/userRouter.js";
 import hotelRouter from "./routes/HotelRoute.js";
 import connectCloudinary from "./config/cloudinary.js";
 import roomRouter from "./routes/Roomroute.js";
-
+import bookingRouter from "./routes/BookingRoutes.js";
 const PORT = process.env.PORT || 3000
 
 connectDB()
@@ -26,6 +26,7 @@ app.post("/api/clerk", clerkWebhook);
 app.use('/api/user' , userRouter)
 app.use('/api/hotels' , hotelRouter)
 app.use('/api/rooms', roomRouter)
+app.use('/api/bookings' , bookingRouter)
 
 
 

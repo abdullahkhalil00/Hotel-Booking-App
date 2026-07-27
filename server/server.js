@@ -11,8 +11,8 @@ import roomRouter from "./routes/Roomroute.js";
 import bookingRouter from "./routes/BookingRoutes.js";
 const PORT = process.env.PORT || 3000
 
-connectDB()
-connectCloudinary()
+await connectDB();
+await connectCloudinary()
 const app = express()
 // Middle ware
 app.use(cors())
@@ -23,10 +23,10 @@ app.use(express.json({
 }))
 app.use(clerkMiddleware())
 app.post("/api/clerk", clerkWebhook);
-app.use('/api/user' , userRouter)
-app.use('/api/hotels' , hotelRouter)
+app.use('/api/user', userRouter)
+app.use('/api/hotels', hotelRouter)
 app.use('/api/rooms', roomRouter)
-app.use('/api/bookings' , bookingRouter)
+app.use('/api/bookings', bookingRouter)
 
 
 

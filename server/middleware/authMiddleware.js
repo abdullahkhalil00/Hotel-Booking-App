@@ -14,7 +14,7 @@ async function protect(req, res, next) {
         });
     }
 
-    const user = await User.findById(userId); x``
+    const user = await User.findById(userId);
 
     console.log("user:", user);
 

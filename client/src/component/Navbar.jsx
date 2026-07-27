@@ -131,9 +131,9 @@ const Navbar = () => {
                 ))}
 
                 {user && <button
-                    onClick={() => navigate('/owner')}
+                    onClick={() => isOwner ? navigate('/owner') : setShowHotelReg(true)}
                     className="border px-4 py-1 text-sm font-light rounded-full cursor-pointer transition-all">
-                    Dashbord
+                   {isOwner ?  'Dashbord' : 'List Your Hotel'} 
                 </button>}
 
                 {!user && <button

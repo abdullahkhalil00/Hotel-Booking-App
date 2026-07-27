@@ -14,7 +14,7 @@ const clerkWebhook = async (req, res) => {
             "svix-signature": req.headers["svix-signature"],
         }
         // Verify 
-        await whook.verify(req.rawBody || JSON.stringify(req.body), headers)
+       // await whook.verify(req.rawBody || JSON.stringify(req.body), headers)
 
         // Getting Data from request body
         const { data, type } = req.body

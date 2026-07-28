@@ -8,7 +8,7 @@ export const createRoom = async (req, res) => {
         const { roomType, pricePerNight, amenities } = req.body;
 
         const hotel = await Hotel.findOne({
-            owner: req.auth.userId,
+            owner: req.user._id,
         });
 
         if (!hotel) {
@@ -77,11 +77,11 @@ export const getRooms = async (req, res) => {
 // API to get all rooms of logged in hotel owner
 export const getOwnerRooms = async (req, res) => {
     try {
-        const hotelData = await Hotel.findOne({
-            owner: req.auth.userId,
+        const hotel = await Hotel.findOne({
+            owner: req.user._id,
         });
 
-        if (!hotelData) {
+        if (!hotel) {
             return res.json({
                 success: false,
                 message: "No Hotel found",
@@ -89,7 +89,7 @@ export const getOwnerRooms = async (req, res) => {
         }
 
         const rooms = await Room.find({
-            hotel: hotelData._id,
+            hotel: hotel._id,
         }).populate("hotel");
 
         res.json({

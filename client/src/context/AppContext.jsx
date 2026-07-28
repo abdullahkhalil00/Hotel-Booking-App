@@ -44,7 +44,7 @@ export const AppProvider = ({ children }) => {
       });
 
       if (data.success) {
-        setIsOwner(data.role === "hotelowner");
+        setIsOwner(data.role === "hotelOwner");
         setSearchedCities(data.recentSearchedCities || []);
       } else {
         toast.error(data.message || "Failed to load user data");

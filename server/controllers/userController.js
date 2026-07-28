@@ -26,7 +26,7 @@ export const storeRecentSearchedCities = async (req, res) => {
         const { recentSearchedCity } = req.body;
         const user = req.user;
 
-        console.log("Before:", user.recentSearchedCities);
+       
 
         if (!user.recentSearchedCities.includes(recentSearchedCity)) {
             if (user.recentSearchedCities.length >= 3) {
@@ -36,11 +36,9 @@ export const storeRecentSearchedCities = async (req, res) => {
             user.recentSearchedCities.push(recentSearchedCity);
         }
 
-        console.log("After Push:", user.recentSearchedCities);
-
+        
         await user.save();
 
-        console.log("After Save:", user.recentSearchedCities);
 
         res.json({
             success: true,

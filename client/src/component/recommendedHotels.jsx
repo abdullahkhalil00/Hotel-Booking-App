@@ -1,11 +1,10 @@
 import React from "react";
-import { roomsDummyData } from "../assets/assets";
 import HotelCard from "./HotelCard";
 import Title from "./title";
-import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
-const recommendedHotels = () => {
-    const { rooms, navigate } = useAppContext()
+import { useState , useEffect } from "react";
+const RecommendedHotels = () => {
+    const { rooms, navigate , searchedCities } = useAppContext()
     const [recommended, setRecommended] = useState([]);
 
     const filterHotels = () => {
@@ -39,4 +38,4 @@ bg-white hover:bg-gray-50 transition-all cursor-pointer'>
     );
 };
 
-export default recommendedHotels;
+export default RecommendedHotels;

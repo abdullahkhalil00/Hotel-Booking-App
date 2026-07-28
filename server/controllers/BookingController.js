@@ -1,7 +1,8 @@
 import Booking from "../models/Booking.js";
 import Room from "../models/Room.js";
 import Hotel from "../models/Hotel.js"; // Added missing Hotel model import
-
+import transporter from "../config/nodeMailer.js";
+import User from '../models/user.js'
 // Helper Function to check room availability
 const checkAvailability = async ({ checkInDate, checkOutDate, room }) => {
     // strict $lt and $gt allow checkout and checkin on the same day
@@ -45,34 +46,53 @@ export const createBooking = async (req, res) => {
         const { room, checkInDate, checkOutDate, guests } = req.body;
         const user = req.user._id;
 
-        // Date validation check
+        // Validate dates
         const checkIn = new Date(checkInDate);
         const checkOut = new Date(checkOutDate);
 
-        if (isNaN(checkIn.getTime()) || isNaN(checkOut.getTime()) || checkOut <= checkIn) {
+        if (
+            isNaN(checkIn.getTime()) ||
+            isNaN(checkOut.getTime()) ||
+            checkOut <= checkIn
+        ) {
             return res.status(400).json({
                 success: false,
-                message: "Invalid check-in/check-out dates. Check-out must be after check-in."
+                message: "Invalid check-in/check-out dates.",
             });
         }
 
-        // Before Booking: Check Availability
-        const isAvailable = await checkAvailability({ checkInDate, checkOutDate, room });
+        // Check room availability
+        const isAvailable = await checkAvailability({
+            room,
+            checkInDate,
+            checkOutDate,
+        });
+
         if (!isAvailable) {
-            return res.status(400).json({ success: false, message: "Room is not available for selected dates." });
+            return res.status(400).json({
+                success: false,
+                message: "Room is not available for selected dates.",
+            });
         }
 
-        // Retrieve room data
+        // Get room details
         const roomData = await Room.findById(room).populate("hotel");
+
         if (!roomData) {
-            return res.status(404).json({ success: false, message: "Room not found." });
+            return res.status(404).json({
+                success: false,
+                message: "Room not found.",
+            });
         }
 
-        // Calculate nights and total price
-        const timeDiff = checkOut.getTime() - checkIn.getTime();
-        const nights = Math.ceil(timeDiff / (1000 * 3600 * 24));
-        const totalPrice = roomData.pricePerNight * nights;
+        // Calculate total price
+        const nights = Math.ceil(
+            (checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24)
+        );
 
+        const totalPrice = nights * roomData.pricePerNight;
+
+        // Create booking
         const booking = await Booking.create({
             user,
             room,
@@ -83,14 +103,54 @@ export const createBooking = async (req, res) => {
             totalPrice,
         });
 
-        return res.status(201).json({ 
-            success: true, 
-            message: "Booking created successfully", 
-            booking 
+        // Get user details
+        const userData = await User.findById(user);
+
+        // Send confirmation email
+        await transporter.sendMail({
+            from: '"Hotel Booking" <onboarding@resend.dev>',
+            to: userData.email,
+            subject: "Booking Confirmation",
+            html: `
+        <h2>Your Booking Details</h2>
+
+        <p>Dear ${userData.username},</p>
+
+        <p>Thank you for your booking! Here are your booking details:</p>
+
+        <ul>
+          <li><strong>Booking ID:</strong> ${booking._id}</li>
+          <li><strong>Hotel Name:</strong> ${roomData.hotel.name}</li>
+          <li><strong>Location:</strong> ${roomData.hotel.address}</li>
+          <li><strong>Check In:</strong> ${new Date(
+                booking.checkInDate
+            ).toDateString()}</li>
+          <li><strong>Check Out:</strong> ${new Date(
+                booking.checkOutDate
+            ).toDateString()}</li>
+          <li><strong>Guests:</strong> ${booking.guests}</li>
+          <li><strong>Booking Amount:</strong> $${booking.totalPrice
+                } / stay</li>
+        </ul>
+
+        <p>We look forward to welcoming you!</p>
+
+        <p>If you need to make any changes, feel free to contact us.</p>
+      `,
+        });
+
+        return res.status(201).json({
+            success: true,
+            message: "Booking created successfully",
+            booking,
         });
     } catch (error) {
-        console.error("Booking Error:", error);
-        return res.status(500).json({ success: false, message: "Failed to create booking" });
+        console.error(error);
+
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        });
     }
 };
 

@@ -1,10 +1,33 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Title from '../component/title'
 import { userBookingsDummyData, assets } from '../assets/assets'
-
+import { useAppContext } from '../context/AppContext'
 const MyBookings = () => {
-    const [bookings, setBookings] = useState(userBookingsDummyData)
+    const { axios, getToken, user } = useAppContext();
+    const [bookings, setBookings] = useState([]);
 
+    const fetchUserBookings = async () => {
+        try {
+            const { data } = await axios.get("/api/bookings/user", {
+                headers: {
+                    Authorization: `Bearer ${await getToken()}`
+                }
+            });
+
+            if (data.success) {
+                setBookings(data.bookings);
+            } else {
+                toast.error(data.message);
+            }
+        } catch (error) {
+            toast.error(error.response?.data?.message || error.message);
+        }
+    };
+    useEffect(() => {
+        if (user) {
+            fetchUserBookings()
+        }
+    }, [user])
     // Fallback image in case room image fails to load
     const fallbackImage = "https://via.placeholder.com/300x200?text=Room+Image";
 

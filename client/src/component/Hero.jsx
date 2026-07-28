@@ -22,7 +22,7 @@ export const Hero = () => {
                 }
             }
         );
-        console.log(response.data);
+       
 
         // Add destination to searchedCities (max 3 recent searched cities)
         setSearchedCities((prevSearchedCities) => {

@@ -24,21 +24,26 @@ export default getUserData;
 export const storeRecentSearchedCities = async (req, res) => {
     try {
         const { recentSearchedCity } = req.body;
-        const user = await req.user;
+        const user = req.user;
 
         if (user.recentSearchedCities.length < 3) {
-            user.recentSearchedCities.push(recentSearchedCity)
+            user.recentSearchedCities.push(recentSearchedCity);
         } else {
             user.recentSearchedCities.shift();
-            user.recentSearchedCities.push(recentSearchedCity)
-
-            await user.save();
-            res.json({ success: true, message: "City added" })
-
+            user.recentSearchedCities.push(recentSearchedCity);
         }
+
+        await user.save();
+
+        res.json({
+            success: true,
+            message: "City added"
+        });
+
     } catch (error) {
-        res.json({ success: false, message: error.message })
-
+        res.json({
+            success: false,
+            message: error.message
+        });
     }
-
-}
+};

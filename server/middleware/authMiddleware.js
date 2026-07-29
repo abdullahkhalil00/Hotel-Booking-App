@@ -2,8 +2,6 @@ import User from "../models/user.js";
 
 async function protect(req, res, next) {
     const auth = await req.auth();
-
-  
     const { userId } = auth;
 
     if (!userId) {

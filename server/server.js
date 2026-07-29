@@ -28,7 +28,12 @@ app.use('/api/hotels', hotelRouter)
 app.use('/api/rooms', roomRouter)
 app.use('/api/bookings', bookingRouter)
 
-
+app.get("/health", (req, res) => {
+    res.status(200).json({
+        status: "OK",
+        message: "Backend is healthy"
+    });
+});
 
 
 app.get('/', (req, res) => res.send("APi is working "))

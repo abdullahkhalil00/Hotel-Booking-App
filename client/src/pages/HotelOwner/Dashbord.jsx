@@ -2,8 +2,9 @@ import React, { useState , useEffect} from 'react'
 import Title from '../../component/title' // Adjust the import path if needed
 import { assets } from '../../assets/assets'
 import {useAppContext} from '../../context/AppContext'
+import toast from 'react-hot-toast'
 const Dashboard = () => {
-  const { currency, user, getToken, toast, axios } = useAppContext();
+  const { currency, user, getToken,  axios } = useAppContext();
 
   const [DashboardData, setDashbordData] = useState({
     bookings: [],
@@ -19,7 +20,7 @@ const Dashboard = () => {
       });
 
       if (data.success) {
-        setDashboardData(data.dashboardData);
+        setDashbordData(data.dashboardData);
       } else {
         toast.error(data.message);
       }

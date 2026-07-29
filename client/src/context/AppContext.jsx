@@ -29,7 +29,7 @@ export const AppProvider = ({ children }) => {
         toast.error(data.message);
       }
     } catch (error) {
-      console.log("In APPContext")
+      
       toast.error(error.response?.data?.message || error.message);
     }
   };
@@ -51,12 +51,14 @@ export const AppProvider = ({ children }) => {
         toast.error(data.message || "Failed to load user data");
       }
     } catch (error) {
+    
+
       toast.error(error.response?.data?.message || error.message);
     }
   };
   useEffect(() => {
     fetchRooms()
-  },[])
+  }, [])
 
   useEffect(() => {
     if (user) {
